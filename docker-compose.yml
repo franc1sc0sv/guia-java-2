@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+  postgres-ej3:
+    image: postgres:15
+    container_name: agenda_db
+    environment:
+      POSTGRES_DB: agenda
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - agenda_data:/var/lib/postgresql/data
+      - ./sql/ejercicio3_agenda.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres-ej4:
+    image: postgres:15
+    container_name: importadora_db
+    environment:
+      POSTGRES_DB: importadora
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    volumes:
+      - importadora_data:/var/lib/postgresql/data
+      - ./sql/ejercicio4_importadora.sql:/docker-entrypoint-initdb.d/init.sql
+
+  postgres-ej5:
+    image: postgres:15
+    container_name: carclean_db
+    environment:
+      POSTGRES_DB: carclean
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5434:5432"
+    volumes:
+      - carclean_data:/var/lib/postgresql/data
+      - ./sql/ejercicio5_carclean.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  agenda_data:
+  importadora_data:
+  carclean_data:
