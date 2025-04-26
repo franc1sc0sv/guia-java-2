@@ -1,0 +1,6 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="GuiaEjercicios2JavaWeb:war">
+    <output-path>$PROJECT_DIR$/out/artifacts/GuiaEjercicios2JavaWeb_war</output-path>
+    <root id="root" />
+  </artifact>
+</component>
