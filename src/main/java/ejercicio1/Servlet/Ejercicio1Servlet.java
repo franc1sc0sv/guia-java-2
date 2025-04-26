@@ -10,7 +10,7 @@ import java.io.IOException; // Importamos IOException para manejar excepciones d
 
 @WebServlet("/ejercicio1/submit") // Anotación que mapea esta clase como un servlet a la URL /ejercicio1/submit
 public class Ejercicio1Servlet extends HttpServlet {
-    // Método que maneja las solicitudes POST
+    // Metodo que maneja las solicitudes POST
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // Creamos una nueva instancia de Estudiante
         Estudiante est = new Estudiante();
