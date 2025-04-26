@@ -1,5 +1,5 @@
 Manifest-Version: 1.0
 Created-By: IntelliJ IDEA
-Built-By: ravn006
-Build-Jdk: Homebrew OpenJDK 23.0.2 - aarch64
+Built-By: pc
+Build-Jdk: Oracle OpenJDK 24.0.1
 
