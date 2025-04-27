@@ -6,6 +6,7 @@
     <title>Guía de Ejercicios 2 - Java Web</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-gradient-to-br from-blue-100 to-purple-200 min-h-screen flex flex-col items-center justify-center text-gray-800">
 
 <div class="bg-white shadow-2xl rounded-xl p-10 max-w-3xl w-full">
