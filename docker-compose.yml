@@ -11,20 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - agenda_data:/var/lib/postgresql/data
-      - ./sql/ejercicio3_agenda.sql:/docker-entrypoint-initdb.d/init.sql
-
-  postgres-ej4:
-    image: postgres:15
-    container_name: importadora_db
-    environment:
-      POSTGRES_DB: importadora
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: admin
-    ports:
-      - "5433:5432"
-    volumes:
-      - importadora_data:/var/lib/postgresql/data
-      - ./sql/ejercicio4_importadora.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/ejercicio3.sql:/docker-entrypoint-initdb.d/init.sql
 
   postgres-ej5:
     image: postgres:15
@@ -37,9 +24,8 @@ services:
       - "5434:5432"
     volumes:
       - carclean_data:/var/lib/postgresql/data
-      - ./sql/ejercicio5_carclean.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./sql/ejercicio5.sql:/docker-entrypoint-initdb.d/init.sql
 
 volumes:
   agenda_data:
-  importadora_data:
   carclean_data:
