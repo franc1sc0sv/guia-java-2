@@ -6,9 +6,13 @@
 
 <html>
 <head>
-    <titleßß>Cálculo de Vacaciones</titleßß>
+    <title>Cálculo de Vacaciones</title>
+    <jsp:include page="/components/Libraries.jsp"/>
 </head>
 <body>
+
+<jsp:include page="/components/FloatingHomeButton.jsp"/>
+
 <h1>Cálculo de Vacaciones</h1>
 
 <form method="post">
