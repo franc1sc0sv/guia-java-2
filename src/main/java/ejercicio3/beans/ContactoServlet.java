@@ -1,33 +1,48 @@
 package ejercicio3.beans;
 
-import javax.servlet.*;
-import javax.servlet.http.*;
-import java.io.*;
+import ejercicio3.services.AgendaService;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import javax.servlet.annotation.WebServlet;
 
 @WebServlet("/ContactoServlet")
 public class ContactoServlet extends HttpServlet {
     private static final long serialVersionUID = 1L;
 
+    private AgendaService agendaService;
+
+    @Override
+    public void init() throws ServletException {
+        super.init();
+        agendaService = new AgendaService();
+    }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
-        if ("mostrar".equals(action)) {
+        if ("ver".equals(action)) {
             mostrarContactos(request, response);
         } else if ("buscar".equals(action)) {
-            buscarContacto(request, response);
+            mostrarFormularioBusqueda(request, response);
         } else {
-            mostrarFormulario(request, response);
+            mostrarFormularioAgregar(request, response);
         }
     }
 
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
 
         if ("agregar".equals(action)) {
             agregarContacto(request, response);
+        } else if ("buscarContacto".equals(action)) {
+            buscarContacto(request, response);
         } else {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Acción no válida.");
         }
@@ -35,10 +50,9 @@ public class ContactoServlet extends HttpServlet {
 
     private void mostrarContactos(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         try {
-            List<Contacto> listaContactos = Contactolista.obtenerContactos();
+            List<Contacto> listaContactos = agendaService.listarContactos();
             request.setAttribute("contactos", listaContactos);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/mostrarContactos.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/pages/ejercicio3/Ejercicio3.jsp?accion=ver").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("Error al obtener contactos", e);
         }
@@ -47,14 +61,13 @@ public class ContactoServlet extends HttpServlet {
     private void buscarContacto(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String nombre = request.getParameter("nombre");
         try {
-            Contacto contacto = Contactolista.buscarContacto(nombre);
+            Contacto contacto = agendaService.buscarContactoPorNombre(nombre);
             if (contacto != null) {
                 request.setAttribute("contacto", contacto);
             } else {
                 request.setAttribute("error", "Contacto no encontrado.");
             }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/buscarContacto.jsp");
-            dispatcher.forward(request, response);
+            request.getRequestDispatcher("/pages/ejercicio3/Ejercicio3.jsp?accion=buscar").forward(request, response);
         } catch (SQLException e) {
             throw new ServletException("Error al buscar contacto", e);
         }
@@ -67,15 +80,19 @@ public class ContactoServlet extends HttpServlet {
 
         try {
             Contacto contacto = new Contacto(nombre, telefono, correo);
-            Contactolista.agregarContacto(contacto);
-            response.sendRedirect("ContactoServlet?action=mostrar"); // Redirige para mostrar los contactos
-        } catch (SQLException e) {
-            throw new ServletException("Error al agregar contacto", e);
+            agendaService.agregarContacto(contacto);
+            response.sendRedirect("ContactoServlet?action=ver");
+        } catch (SQLException | IllegalArgumentException e) {
+            request.setAttribute("error", "Error: " + e.getMessage());
+            request.getRequestDispatcher("/pages/ejercicio3/Ejercicio3.jsp?accion=agregar").forward(request, response);
         }
     }
 
-    private void mostrarFormulario(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/formularioContacto.jsp");
-        dispatcher.forward(request, response);
+    private void mostrarFormularioAgregar(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("pages/ejercicio3/Ejercicio3.jsp?accion=agregar");
+    }
+
+    private void mostrarFormularioBusqueda(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.sendRedirect("pages/ejercicio3/Ejercicio3.jsp?accion=buscar");
     }
 }

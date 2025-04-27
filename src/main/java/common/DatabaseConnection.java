@@ -8,7 +8,7 @@ import org.postgresql.Driver;
 
 public class DatabaseConnection {
 
-    private static final String AGENDA_URL = "jdbc:postgresql://localhost:5432/agenda";
+    private static final String AGENDA_URL = "jdbc:postgresql://localhost:5435/agenda";
     private static final String CARCLEAN_URL = "jdbc:postgresql://localhost:5434/carclean";
 
     private static final String USER = "postgres";
